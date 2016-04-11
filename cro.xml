@@ -1,4 +1,4 @@
 <cro type="Default" path="Programs">
-  <pattern>*.exe</pattern>
   <pattern>*.dll</pattern>
+  <pattern>*.exe</pattern>
 </cro>
