@@ -58,12 +58,14 @@ namespace SortSourceTreeBookmarks
         }
 
         var wait = TimeSpan.FromMinutes(5);
+        var ms = (int)Math.Ceiling(wait.TotalMilliseconds);
+
         foreach (var proc in processes)
         {
           try
           {
             proc.CloseMainWindow();
-            if (!proc.WaitForExit(wait.Milliseconds))
+            if (!proc.WaitForExit(ms))
             {
               throw new TimeoutException(string.Format("Exceeded the {0} timeout", wait));
             }
@@ -103,7 +105,9 @@ namespace SortSourceTreeBookmarks
 
       try
       {
-        File.Move(bookmarks, Path.ChangeExtension(bookmarks, ".xml.bak"));
+        var xml = File.ReadAllText(bookmarks);
+        var bak = Path.ChangeExtension(bookmarks, ".xml.bak");
+        File.WriteAllText(bak, xml);
       }
       catch (Exception ex)
       {
